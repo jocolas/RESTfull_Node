@@ -1,0 +1,23 @@
+{
+  "name": "restful_api-node-mongo",
+  "version": "1.0.0",
+  "description": "Nodejs RESTfull API , Express , MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jocolas/RESTful_API-Node-Mongo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jocolas/RESTful_API-Node-Mongo/issues"
+  },
+  "homepage": "https://github.com/jocolas/RESTful_API-Node-Mongo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
