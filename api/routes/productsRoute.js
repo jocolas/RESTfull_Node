@@ -36,9 +36,8 @@ router.post('/', (req, res, next) => {
 		name: req.body.name,
 		price: req.body.price
 	});
-  
 	product.save().then(result => {
-		//console.log(result);
+		console.log(result);
 		res.status(201).json({
 			message: 'Product created successfully!',
 			createdProduct: {
@@ -47,7 +46,7 @@ router.post('/', (req, res, next) => {
 				price: result.price,
 				request: {
 					type: 'GET',
-					url: "http://localhost:3000/products/" +doc._id
+					url: 'http://localhost:3000/products/' +result._id
 				}
 			}
 		});
@@ -61,10 +60,16 @@ router.post('/', (req, res, next) => {
 
 router.get('/:productId', (req, res, next) => {
 	const id = req.params.productId;
-	Product.findById(id).exec().then(doc => {
+	Product.findById(id).select('_id name price ').exec().then(doc => {
 		console.log("From database", doc);
 		if (doc) {
-			res.status(200).json(doc);
+			res.status(200).json({
+				product: doc,
+				request: {
+					type: 'GET',
+					url: 'http://localhost:3000/products/' + doc._id
+				}
+			});
 		}else{
 			res.status(404).json({message: 'No valid entry found for provided ID'});
 		}
@@ -81,8 +86,14 @@ router.patch('/:productId', (req, res, next) => {
 		updateOps[ops.propName] = ops.value;
 	}
 	Product.update({ _id: id}, {$set: updateOps}).exec().then(result => {
-		console.log(result);
-		res.status(200).json(result);
+		//console.log(result);
+		res.status(200).json({
+			message: 'Product updated',
+			request: {
+				type: 'GET',
+				url:  'http://localhost:3000/products/' + id
+			}
+		});
 	}).catch(err => {
 		console.log(err);
 		res.status(500).json({
@@ -93,8 +104,15 @@ router.patch('/:productId', (req, res, next) => {
 
 router.delete('/:productId', (req, res, next) => {
 	const id = req.params.productId;
-	Product.remove({ _id: id}).exec().then(result => {
-		res.status(200).json(result);
+	Product.deleteOne({ _id: id}).exec().then(result => {
+		res.status(200).json({
+			message: 'Product deleted!',
+			request:{
+				type: 'GET',
+				url: 'http://localhost:3000/products/',
+				body: { name: 'String', price: 'Number'}
+			}
+		});
 	}).catch(err => {
 		console.log(err);
 		res.status(500).json({

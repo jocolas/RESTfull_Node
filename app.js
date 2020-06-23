@@ -18,6 +18,8 @@ mongoose.connection.on('connected', () => {
 	console.log('Database connection is successful !!!');
 });
 
+mongoose.Promise = global.Promise;
+
 app.use(morgan('dev'));
 
 app.use(bodyParser.urlencoded({extended: false}));
