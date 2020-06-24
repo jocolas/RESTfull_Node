@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/productsRoute');
 const orderRoutes = require('./api/routes/ordersRoute');
+const userRoutes = require('./api/routes/userRoute');
 
 mongoose.connect('mongodb://localhost/rest_api',{
 	useNewUrlParser: true,
@@ -21,6 +22,8 @@ mongoose.connection.on('connected', () => {
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
+
+app.use('/upload', express.static('upload'));
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -39,6 +42,7 @@ app.use((req, res, next) => {
 //Routes which should handle requests
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
 	const error = new Error('Not found');
