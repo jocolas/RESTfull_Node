@@ -12,7 +12,7 @@ const userRoutes = require('./api/routes/userRoute');
 mongoose.connect('mongodb://localhost/rest_api',{
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
-	//useCreateIndex: true
+	useCreateIndex: true
 }).catch(error => console.log(error.reason));
 
 mongoose.connection.on('connected', () => {
